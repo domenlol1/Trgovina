@@ -19,7 +19,7 @@ module.exports = (settings) => {
             connectionPool.getConnection((error, connection) => {
                 if (error) dfd.resolve({responseCode: 500, message: "Database error while trying to get user"});
                 connectionPool.query(
-                    'SELECT * FROM uporabniki WHERE username = "'+ req.username +'" AND password = "'+ req.password +'"',
+                    'SELECT * FROM uporabniki WHERE ime = "'+ req.ime +'" AND geslo = "'+ req.geslo +'"',
                     (error, result) => {
                         if (connection) connection.release();
                         if (error) dfd.resolve({responseCode: 500, message: "Database error."});
