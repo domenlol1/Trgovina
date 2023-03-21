@@ -71,48 +71,95 @@
         </div>
         <div class="right">
             <div class="mid">
-                <div>
-                    <img src="../assets/aviator2.jpg" class="slikaizdelka">
-                    <p style="text-align: center;">cena</p>
+                <div class="product-box">
+                    <div class="product-image">
+                        <img src="https://image4.cdnsbg.com/1/14/23588_1599492623838.jpg?width=450&height=225" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name">RB3025 Aviator Gradient 004/51</h3>
+                        <p class="product-price">93€</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mid">
+                <div class="product-box">
+                    <div class="product-image">
+                        <img src="https://image4.cdnsbg.com/1/14/102935_1599492623824.jpg?width=450&height=225" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name">RB3025 Aviator Gradient</h3>
+                        <p class="product-price">114€</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mid">
+                <div class="product-box">
+                    <div class="product-image">
+                        <img src="https://image4.cdnsbg.com/1/14/4304_1599492703290.jpg?width=450&height=225" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name">RB3025 Aviator Polarized</h3>
+                        <p class="product-price">135€</p>
+                    </div>
                 </div>
             </div>
             <div class="mid"></div>
             <div class="mid"></div>
             <div class="mid"></div>
-            <div class="mid"></div>
-            <div class="mid"></div>
         </div>
     </div>
-
 </template>
 
 <script>
 export default {
     data: () => {
-        return {      
+        return {
         };
     },
 };
 </script>
 
 <style scoped>
+.product-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-image {
+  height: 170px;
+  width: 280px;
+}
+
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product-details {
+  text-align: center;
+}
+.product-price {
+  font-weight: bold;
+}
 .left {
     background-color: white;
     width: 300px;
     height: 500px;
     border-right: 1px solid rgb(179, 179, 182);
-    margin-left: 130px;
+    margin-left: 100px;
 }
 
 .right {
     background-color: white;
-    width: 1000px;
+    width: 1080px;
     height: 1000px;
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 20px;
     padding: 30px;
+    padding-left: 100px;
 }
 
 .mid {
@@ -127,22 +174,6 @@ export default {
     border: 0;
     transition: 0.1s;
 }
-
-.slikaizdelka {
-    /*display: inline-block;
-    min-width: 290px;
-    height: -webkit-max-content;
-    height: -moz-max-content;
-    height: max-content;
-    margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: 1px solid transparent;
-    text-align: center;*/
-    height: 170px;
-    width: 280px;
-}
-
 .mid:hover {
     box-shadow: 0 0 5px rgb(39, 39, 39);
     -moz-box-shadow: 0 0 5px rgb(39, 39, 39);
