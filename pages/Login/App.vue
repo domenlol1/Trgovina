@@ -3,8 +3,10 @@
         Log in
     </h1>
     <form @submit.prevent="submitlogin">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="name">Name:</label>
+        <input type="name" id="name" name="name" v-model="ime" required>
+        <!--<label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>-->
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
@@ -18,6 +20,7 @@
 </template>
 
 <script>
+const axios = require("axios");
 export default {
     data() {
         return {
@@ -51,9 +54,9 @@ export default {
         },
         submitlogin() {
             axios
-                .post('http://localhost:3000/api/login', {
+                .post("http://localhost:3000/api/login", {
                     ime: this.ime,
-                    geslo: this.password,
+                    password: this.password,
                 })
                 .then((response) => {
                     console.log(response.data);
@@ -78,7 +81,7 @@ export default {
                 window.location.href = ".";
             }
         },
-    },
+    }
 }
 </script>
 
@@ -104,6 +107,7 @@ label {
 }
 
 input[type="email"],
+input[type="name"],
 input[type="password"] {
     width: 100%;
     padding: 12px 20px;
@@ -148,4 +152,5 @@ h1 {
 .a1 {
     text-decoration: none;
     color: white;
-}</style>
+}
+</style>
