@@ -3,15 +3,15 @@
         Log in
     </h1>
     <form @submit.prevent="submitlogin">
-        <label for="name">Name:</label>
-        <input type="name" id="name" name="name" v-model="ime" required>
+        <label for="ime">Name:</label>
+        <input type="name" id="ime" name="ime" v-model="ime" required>
         <!--<label for="email">Email:</label>
         <input type="email" id="email" name="email" required>-->
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <label for="geslo">Password:</label>
+        <input type="password" id="geslo" name="geslo" v-model="geslo" required>
 
-        <button type="submit">Continue</button>
+        <button type="submit" v-on:click="setCookie('uporabnik', '2', '7');">Continue</button>
         <p v-if="error" class="error">{{ error }}</p>
     </form>
     <div class="text">
@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             email: "",
-            password: "",
+            geslo: "",
             loggedin: "",
             ime: "",
             error: "",
@@ -56,7 +56,7 @@ export default {
             axios
                 .post("http://localhost:3000/api/login", {
                     ime: this.ime,
-                    password: this.password,
+                    geslo: this.geslo,
                 })
                 .then((response) => {
                     console.log(response.data);
@@ -71,9 +71,10 @@ export default {
                     ) {
                         this.error = error.response.data.message;
                     } else {
-                        this.error = "ime and password do not match";
+                        this.error = "ime and geslo do not match";
                     }
-                });
+                }
+            );
         },
         checkLogin() {
             if (this.getCookie("ime") != "") {
