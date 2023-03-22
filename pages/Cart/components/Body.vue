@@ -1,17 +1,6 @@
 <template>
-  <div class="cart">
-    <div class="item">
-      <div class="mid">
-        
-      </div>
-      <div>$10</div>
-    </div>
-    <div class="item">
-      <div class="mid">
+  <div class="cart" id="cart">
 
-      </div>
-      <div>$20</div>
-    </div>
     <div class="total">
       Total: $30
     </div>
@@ -20,7 +9,24 @@
 
 <script>
 export default {
-  
+  methods: {
+    additem() {
+
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "item";
+      const midDiv = document.createElement("div");
+      midDiv.className = "mid";
+      midDiv.innerHTML = `<img src=${izdelki.slika} alt="Product Image">
+      <h3 class="product-name">${izdelki.ime}RB3025 Aviator Gradient 004/51</h3>
+      <p class="product-price">${izdelki.cena}93€</p>`;
+      itemDiv.appendChild(midDiv);
+      document.getElementById("cart").appendChild(itemDiv);
+    },
+    removeitem(id) {
+      document.getElementById(id).outerHTML = "";
+    }
+  }
+
 };
 </script>
 
