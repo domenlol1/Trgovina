@@ -2,14 +2,21 @@
     <div class="navigation">
         <div class="elements">
             <div class="levo">
-                <a href="">Sončna očala</a>
-                <a href="index">Trgovina</a>
+                <a href="" class="a1">Sončna očala</a>
+                <a href="index" class="a1">Trgovina</a>
             </div>
             <form action="." method="post">
                 <input class="bar" type="text" name="search" id="search" placeholder="Search...">
             </form>
             <div class="desno">
-                <a href="login"><img src="../assets/loginicon.jpg" style="width: 30px; height: 30px;"></a>
+                <div class="desno" v-if="loggedin == false">
+                <button class="roundbutton1"><a href="login" class="roundbutton11">login</a></button>
+                <button class="roundbutton2"><a href="signup" class="roundbutton22">signup</a></button>
+                </div>
+                <div class="desno" v-else>
+                    <button class="roundbutton2"><a href="" class="roundbutton22">logout</a></button>
+                </div>
+                <!--<a href="login"><img src="../assets/loginicon.jpg" style="width: 30px; height: 30px;"></a>-->
                 <a href="cart"><img src="../assets/carticon.jpg" style="width: 30px; height: 30px;"></a>
             </div>
         </div>
@@ -17,7 +24,13 @@
 </template>
 
 <script>
-
+export default {
+    data() {
+        return {
+            loggedin: false
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -45,9 +58,55 @@
 }
 .desno {
     display:flex;
-    gap: 20px;
+    gap: 15px;
 }
-a {
+.roundbutton1 {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #000000;
+    color: #1aaaaf;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bolder;
+    font-family: sans-serif;
+}
+.roundbutton11 {
+    border: none;
+    border-radius: 20px;
+    background-color: #000000;
+    color: #1aaaaf;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bolder;
+    font-family: sans-serif;
+}
+.roundbutton2 {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #1aaaaf;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bolder;
+    font-family: sans-serif;
+}
+.roundbutton22 {
+    border: none;
+    border-radius: 20px;
+    background-color: #1aaaaf;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bolder;
+    font-family: sans-serif;
+}
+.a1 {
     text-decoration: none;
     --link-color: #000000;
     color: var(--link-color);
