@@ -4,11 +4,12 @@
         <div class="left">
             <p style="text-align:center; padding-top: 5%;">FILTRI</p>
             <hr class="podfiltri">
-            <form class="form">
+            <form class="form" v-on:submit.prevent="filterItems">
                 <label for="firm">Brands:</label>
                 <div class="filter-row">
                     <div>
-                        <input type="checkbox" class="checkboxes" id="Ray Ban" name="Ray Ban" value="Ray Ban">
+                        <input type="checkbox" class="checkboxes" id="Ray Ban" name="Ray Ban" value="Ray Ban"
+                            v-model="Brands">
                         <label for="Ray Ban"></label>
                     </div>
                     <div>
@@ -17,7 +18,7 @@
                 </div>
                 <div class="filter-row">
                     <div>
-                        <input type="checkbox" class="checkboxes" id="Oakley" name="Oakley" value="Oakley">
+                        <input type="checkbox" class="checkboxes" id="Oakley" name="Oakley" value="Oakley" v-model="Brands">
                         <label for="Oakley"></label>
                     </div>
                     <div>
@@ -26,7 +27,8 @@
                 </div>
                 <div class="filter-row">
                     <div>
-                        <input type="checkbox" class="checkboxes" id="Tom Ford" name="Tom Ford" value="Tom Ford">
+                        <input type="checkbox" class="checkboxes" id="Tom Ford" name="Tom Ford" value="Tom Ford"
+                            v-model="Brands">
                         <label for="Tom Ford"></label>
                     </div>
                     <div>
@@ -35,7 +37,8 @@
                 </div>
                 <div class="filter-row">
                     <div>
-                        <input type="checkbox" class="checkboxes" id="Carrera" name="Carrera" value="Carrera">
+                        <input type="checkbox" class="checkboxes" id="Carrera" name="Carrera" value="Carrera"
+                            v-model="Brands">
                         <label for="Carrera"></label>
                     </div>
                     <div>
@@ -44,104 +47,107 @@
                 </div>
                 <hr class="medfiltri">
                 <label for="price">Price:</label>
-                <input type="range" min="0" max="1000" value="0" class="slider" id="priceRange" name="priceRange">
-                <hr class="medfiltri">
-                <label for="gender">Gender:</label>
-                <div class="filter-row">
-                    <div>
-                        <input type="checkbox" class="checkboxes" id="male" name="male" value="male">
-                        <label for="male"></label>
-                    </div>
-                    <div>
-                        <label for="male">Male</label>
-                    </div>
-                </div>
-                <div class="filter-row">
-                    <div>
-                        <input type="checkbox" class="checkboxes" id="female" name="female" value="female">
-                        <label for="female"></label>
-                    </div>
-                    <div>
-                        <label for="female">Female</label>
-                    </div>
-                </div>
+                <input type="range" min="0" max="500" class="slider" id="priceRange" name="priceRange" v-model="cena">
                 <hr class="medfiltri">
                 <button type="submit">Filter</button>
             </form>
         </div>
         <div class="right">
-            <div class="mid">
+            <div class="mid" v-for="izdelek in izdelki" v-bind:key="izdelek.id">
                 <div class="product-box">
-                    <div class="product-image">
-                        <img src="https://image4.cdnsbg.com/1/14/23588_1599492623838.jpg?width=450&height=225" alt="Product Image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-name">RB3025 Aviator Gradient 004/51</h3>
-                        <p class="product-price">93€</p>
+                    <div>
+                        <div class="product-image">
+                            <img :src="izdelek.slika" alt="item image">
+                        </div>
+                        <div class="product-details">
+                            <h3 class="product-name">{{ izdelek.ime }}</h3>
+                            <p class="product-price">{{ izdelek.cena + " €" }}</p>
+                            <p class="product-price">{{ izdelek.brand }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="mid">
-                <div class="product-box">
-                    <div class="product-image">
-                        <img src="https://image4.cdnsbg.com/1/14/102935_1599492623824.jpg?width=450&height=225" alt="Product Image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-name">RB3025 Aviator Gradient</h3>
-                        <p class="product-price">114€</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mid">
-                <div class="product-box">
-                    <div class="product-image">
-                        <img src="https://image4.cdnsbg.com/1/14/4304_1599492703290.jpg?width=450&height=225" alt="Product Image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-name">RB3025 Aviator Polarized</h3>
-                        <p class="product-price">135€</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mid"></div>
-            <div class="mid"></div>
-            <div class="mid"></div>
         </div>
     </div>
 </template>
 
 <script>
+const axios = require("axios");
 export default {
     data: () => {
         return {
+            izdelki: [[[]]],
+            loggedin: false,
+            error: "",
+            ime: "",
+            Brands: [],
+            cena: 0,
         };
+    },
+    methods: {
+        getizdelki() {
+            axios.post('http://localhost:3000/api/izdelki').then(response => {
+                this.izdelki = response.data;
+            })
+        },
+        getCookie(cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        },
+        setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        },
+        checkLogin() {
+            if (this.getCookie("ime") != "") {
+                this.loggedin = true;
+                window.location.href = ".";
+            }
+        }
+    },
+    mounted() {
+        this.getizdelki();
     },
 };
 </script>
 
 <style scoped>
 .product-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .product-image {
-  height: 170px;
-  width: 280px;
+    height: 170px;
+    width: 280px;
 }
 
 .product-image img {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .product-details {
-  text-align: center;
+    text-align: center;
 }
+
 .product-price {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .left {
     background-color: white;
     width: 300px;
@@ -174,6 +180,7 @@ export default {
     border: 0;
     transition: 0.1s;
 }
+
 .mid:hover {
     box-shadow: 0 0 5px rgb(39, 39, 39);
     -moz-box-shadow: 0 0 5px rgb(39, 39, 39);
@@ -222,6 +229,10 @@ label {
 
 input[type="checkbox"] {
     padding: 0;
+}
+
+.slider {
+    width: 240px;
 }
 
 .checkboxes {
