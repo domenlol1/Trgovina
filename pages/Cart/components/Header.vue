@@ -10,13 +10,12 @@
             </form>
             <div class="desno">
                 <div class="desno" v-if="loggedin == false">
-                <button class="roundbutton1"><a href="login" class="roundbutton11">login</a></button>
-                <button class="roundbutton2"><a href="signup" class="roundbutton22">signup</a></button>
+                    <button class="roundbutton1"><a href="login" class="roundbutton11">login</a></button>
+                    <button class="roundbutton2"><a href="signup" class="roundbutton22">signup</a></button>
                 </div>
                 <div class="desno" v-else>
-                    <button class="roundbutton2"><a href="" class="roundbutton22">logout</a></button>
+                    <button class="roundbutton2 roundbutton22" v-on:click="removecookie">logout</button>
                 </div>
-                <!--<a href="login"><img src="../assets/loginicon.jpg" style="width: 30px; height: 30px;"></a>-->
                 <a href="cart"><img src="../assets/carticon.jpg" style="width: 30px; height: 30px;"></a>
             </div>
         </div>
@@ -29,6 +28,41 @@ export default {
         return {
             loggedin: false
         }
+    },
+    methods: {
+        removecookie() {
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            this.loggedin = false;
+            //window.location.href = ".";
+        },
+        getCookie(cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        },
+        setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        },
+        checkLogin() {
+            if (this.getCookie("ime") != "") {
+                this.loggedin = true;
+            }
+        },
+    },
+    mounted() {
+        this.checkLogin();
     }
 }
 </script>
@@ -45,6 +79,7 @@ export default {
     z-index: 100000;
     pointer-events: auto;
 }
+
 .elements {
     align-items: center;
     width: 1024px;
@@ -52,14 +87,17 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+
 .levo {
     display: flex;
     gap: 30px;
 }
+
 .desno {
-    display:flex;
+    display: flex;
     gap: 15px;
 }
+
 .roundbutton1 {
     padding: 10px 20px;
     border: none;
@@ -72,6 +110,7 @@ export default {
     font-weight: bolder;
     font-family: sans-serif;
 }
+
 .roundbutton11 {
     border: none;
     border-radius: 20px;
@@ -83,6 +122,7 @@ export default {
     font-weight: bolder;
     font-family: sans-serif;
 }
+
 .roundbutton2 {
     padding: 10px 20px;
     border: none;
@@ -95,6 +135,7 @@ export default {
     font-weight: bolder;
     font-family: sans-serif;
 }
+
 .roundbutton22 {
     border: none;
     border-radius: 20px;
@@ -106,12 +147,14 @@ export default {
     font-weight: bolder;
     font-family: sans-serif;
 }
+
 .a1 {
     text-decoration: none;
     --link-color: #000000;
     color: var(--link-color);
     font-size: 16px;
 }
+
 .bar {
     display: flex;
     height: 40px;
