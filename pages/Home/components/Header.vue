@@ -6,7 +6,7 @@
                 <a href="index" class="a1">Trgovina</a>
             </div>
             <form action="." method="post">
-                <input class="bar" type="text" name="search" id="search" v-model="searchizdelek" placeholder="Search...">
+                <input class="bar" type="text" name="search" id="search" placeholder="Search..." v-model="search">
             </form>
             <div class="desno">
                 <div class="desno" v-if="loggedin == false">
@@ -31,9 +31,10 @@ export default {
     },
     methods: {
         removecookie() {
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "ime=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "UID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             this.loggedin = false;
-            //window.location.href = ".";
+            window.location.href = "";
         },
         getCookie(cname) {
             let name = cname + "=";
