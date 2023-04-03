@@ -26,7 +26,7 @@ export default {
         return {
             email: "",
             geslo: "",
-            loggedin: "",
+            loggedin: false,
             ime: "",
             error: "",
         };
@@ -61,6 +61,7 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     this.setCookie("ime", response.data[0]['ime'], 7);
+                    this.setCookie("UID", response.data[0]['ID'], 7);
                     window.location.href = ".";
                 })
                 .catch((error) => {
@@ -71,7 +72,7 @@ export default {
                     ) {
                         this.error = error.response.data.message;
                     } else {
-                        this.error = "ime and geslo do not match";
+                        this.error = "Name and password do not match";
                     }
                 }
             );
