@@ -49,11 +49,11 @@
                 <label for="price">Price:</label>
                 <input type="range" min="0" max="500" class="slider" id="priceRange" name="priceRange" v-model="cena">
                 <hr class="medfiltri">
-                <button type="submit">Filter</button>
+                <button type="submit" v-on:click="filterItems()">Filter</button>
             </form>
         </div>
         <div class="right">
-            <div class="mid" v-for="izdelek in izdelki" v-bind:key="izdelek.id">
+            <div class="mid" v-for="izdelek in izdelki" v-bind:key="izdelek.id" v-on:click="addtocart(izdelek.ID)">
                 <div class="product-box">
                     <div>
                         <div class="product-image">
@@ -76,7 +76,7 @@ const axios = require("axios");
 export default {
     data: () => {
         return {
-            izdelki: [[[]]],
+            izdelki: [],
             loggedin: false,
             error: "",
             ime: "",
@@ -115,7 +115,26 @@ export default {
                 this.loggedin = true;
                 window.location.href = ".";
             }
-        }
+        },
+        addtocart(IID) {
+            const uid = this.getCookie("UID");
+            if (uid) {
+                axios
+                    .post('http://localhost:3000/api/kosarica', {
+                        uporabnik: this.getCookie("UID"),
+                        izdelek: IID,
+                        st: 1,
+                    })
+                    .catch(error => {
+                        if (error.response && error.response.data && error.response.data.message) {
+                            this.error = error.response.data.message;
+                        } else {
+                            this.error = 'An unknown error occurred';
+                        }
+                    }
+                    )
+            }
+        },
     },
     mounted() {
         this.getizdelki();
@@ -159,13 +178,14 @@ export default {
 .right {
     background-color: white;
     width: 1080px;
-    height: 1000px;
+    max-height: 100%;
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 20px;
     padding: 30px;
     padding-left: 100px;
+    margin-bottom: 10px;
 }
 
 .mid {
