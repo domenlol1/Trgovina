@@ -31,9 +31,10 @@ export default {
     },
     methods: {
         removecookie() {
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "ime=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "UID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             this.loggedin = false;
-            //window.location.href = ".";
+            window.location.href = "";
         },
         getCookie(cname) {
             let name = cname + "=";
