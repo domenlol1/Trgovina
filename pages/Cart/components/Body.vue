@@ -14,18 +14,32 @@
         </div>
       </div>
     </div>
-    <div class="total">
-      Total: ${{ this.skupno }}
+    <div class="skupno">
+      Skupaj: {{ this.skupno }} €
+      <div class="root">
+        <button type="submit" v-on:click="deletecart(), Open()">Nakup</button>
+        <teleport to="Body">
+          <div class="modal" v-if="isOpen">
+            <div>
+              <p> Hvala za vaš nakup</p>
+              <button v-on:click="Close()"> Close </button>
+            </div>
+          </div>
+        </teleport>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 const axios = require("axios");
+const isOpen = ref(false);
 export default {
   data: () => {
     return {
       izdelki: [],
+      isOpen: false
     }
   },
   computed: {
@@ -71,7 +85,23 @@ export default {
       axios.post('http://localhost:3000/api/deleteizdelek', { iid: cid }).then(response => {
         window.location.href = '';
       })
-    }
+    },
+    deletecart() {
+      axios.post('http://localhost:3000/api/deletecart').then(response => {
+      })
+    },
+    addtonarocilo() {
+      axios.post('http://localhost:3000/api/addtonarocilo', { uid: this.getCookie("UID") }).then(response => {
+        this.izdelki = response.data;
+      })
+    },
+    Open() {
+      this.isOpen = true;
+    },
+    Close() {
+      this.isOpen = false;
+      window.location.href = '.';
+    },
   },
   mounted() {
     this.getCartItems();
@@ -112,13 +142,14 @@ export default {
   font-weight: bold;
 }
 
-.total {
-  background-color: lightgray;
-  color: white;
-  padding: 20px;
+.skupno {
+  color: rgb(0, 0, 0);
+  padding-right: 10px;
+  padding-left: 10px;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
+  border-radius: 5px;
 }
 
 .mid {
@@ -156,5 +187,42 @@ export default {
 
 .product-price {
   font-weight: bold;
+}
+
+button[type="submit"] {
+  width: 100%;
+  background-color: #1aaaaf;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0a56bb;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal>div {
+  background: #FFF;
+  padding: 32px;
+}
+
+.root {
+  position: relative;
 }
 </style>
