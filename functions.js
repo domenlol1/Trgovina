@@ -125,6 +125,38 @@ module.exports = (settings) => {
             });
             return dfd.promise;
         },
+        addtonarocilo: (req) => {
+            let Q = require("q");
+            let dfd = Q.defer();
+            connectionPool.getConnection((error, connection) => {
+                if (error) dfd.resolve({ responseCode: 502, message: "Database error while trying to get izdelki." });
+                connectionPool.query( 
+                    'INSERT INTO narocilo (ID_uporabnik, narocilo_date, ID_izdelki) SELECT uporabniki, NOW(), ID_izdelek FROM `izdelek kosarice` WHERE ID_uporabnik = ' + req.uid,
+                    (error, result) => {
+                        if (connection) connection.release();
+                        if (error) dfd.resolve({ responseCode: 500, message: "Database error." });
+                        dfd.resolve({ responseCode: 200, data: result.length === 0 ? [] : result });
+                    }
+                );
+            });
+            return dfd.promise;
+        },
+        deletecart: (req) => {
+            let Q = require("q");
+            let dfd = Q.defer();
+            connectionPool.getConnection((error, connection) => {
+                if (error) dfd.resolve({ responseCode: 502, message: "Database error while trying to get izdelki." });
+                connectionPool.query( 
+                    'DELETE FROM `izdelek kosarice`',
+                    (error, result) => {
+                        if (connection) connection.release();
+                        if (error) dfd.resolve({ responseCode: 500, message: "Database error." });
+                        dfd.resolve({ responseCode: 200, data: result.length === 0 ? [] : result });
+                    }
+                );
+            });
+            return dfd.promise;
+        },
     };
     return functions;
 };
