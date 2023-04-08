@@ -71,5 +71,25 @@ module.exports = (functions) => {
       res.send(result.data);
     });
   });
+
+  router.post('/addtonarocilo', (req, res) => {
+    functions.addtonarocilo(req.body).then(result => {
+      if (result.responseCode === 500) {
+        res.status(500).send(result.message);
+        return;
+      }
+      res.send(result.data);
+    });
+  });
+
+  router.post('/deletecart', (req, res) => {
+    functions.deletecart(req.body).then(result => {
+      if (result.responseCode === 500) {
+        res.status(500).send(result.message);
+        return;
+      }
+      res.send(result.data);
+    });
+  });
   return router;
 };
