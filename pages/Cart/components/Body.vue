@@ -22,7 +22,7 @@
           <div class="modal" v-if="isOpen">
             <div>
               <p> Hvala za vaš nakup</p>
-              <button v-on:click="Close()"> Close </button>
+              <button class="gumb" v-on:click="Close()"> Pojdi nazaj </button>
             </div>
           </div>
         </teleport>
@@ -163,6 +163,7 @@ export default {
   border-radius: 1%;
   border: 0;
   transition: 0.1s;
+  cursor: pointer;
 }
 
 .product-box {
@@ -200,7 +201,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #0a56bb;
 }
 
@@ -220,9 +221,38 @@ button[type="submit"]:hover {
 .modal>div {
   background: #FFF;
   padding: 32px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-shadow:#141414;
+  height: 200px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
 
 .root {
   position: relative;
+}
+.gumb {
+  cursor: pointer;
+  display: flex;
+  width: 50%;
+  font-weight: 600;
+  background-color: #1aaaaf;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #1aaaaf;
+  border-radius: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0 auto;
+  color: white;
+}
+
+p {
+  font-weight: bold;
+  font-size: 18px;
 }
 </style>
